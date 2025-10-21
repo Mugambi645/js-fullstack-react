@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Norway Olympics — Magazine</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Merriweather:ital,wght@0,300;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;line-height:1.5;color:#1b1b1b;background:#f7f6f4}
+
+    /* Magazine wrapper */
+    .magazine{max-width:1100px;margin:32px auto;padding:28px;background:#fff;box-shadow:0 12px 30px rgba(12,18,20,0.08);border-radius:10px}
+
+    /* Header / Cover */
+    .cover{display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:center}
+    .hero{position:relative;overflow:hidden;border-radius:12px}
+    .hero img{width:100%;height:100%;object-fit:cover;display:block}
+    .tag{position:absolute;left:18px;top:18px;background:rgba(0,0,0,0.6);color:#fff;padding:8px 12px;border-radius:6px;font-weight:700;font-size:13px}
+    .cover-title{padding:18px}
+    .cover-title h1{font-family:Merriweather,serif;font-size:46px;line-height:1.02;margin-bottom:8px;font-weight:700}
+    .cover-title p.lead{font-size:16px;color:#535050;margin-bottom:12px}
+    .cover-meta{display:flex;gap:10px;flex-wrap:wrap}
+    .pill{background:#eef7ff;color:#0a4670;padding:8px 12px;border-radius:20px;font-weight:700;font-size:13px}
+
+    /* Grid of features */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+    .card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 6px 18px rgba(13,20,25,0.04);border:1px solid #f0f0f0}
+    .card img{width:100%;height:160px;object-fit:cover;display:block}
+    .card-body{padding:14px}
+    .card h3{font-size:18px;margin-bottom:8px}
+    .card p{font-size:13px;color:#555}
+
+    /* Article layout */
+    .article{display:grid;grid-template-columns:1fr 320px;gap:26px;margin-top:28px}
+    .article .content{padding-right:6px}
+    .dropcap{float:left;font-family:Merriweather,serif;font-size:56px;line-height:48px;margin-right:10px;color:#0b3a66;font-weight:700}
+    .byline{color:#6b6b6b;font-size:13px;margin-bottom:10px}
+    .sidebar{background:#fbfbfb;padding:16px;border-radius:10px;border:1px solid #f0f0f0}
+    .schedule{list-style:none;padding-left:0}
+    .schedule li{padding:8px 0;border-bottom:1px solid #eee;font-size:14px}
+
+    /* Footer */
+    footer{margin-top:34px;padding-top:20px;border-top:1px solid #eee;color:#666;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+
+    /* Responsive */
+    @media (max-width:940px){
+      .cover{grid-template-columns:1fr}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .article{grid-template-columns:1fr}
+      .cover-title h1{font-size:36px}
+    }
+    @media (max-width:560px){
+      .grid{grid-template-columns:1fr}
+      .hero img{height:260px}
+      .cover-title h1{font-size:28px}
+      .dropcap{font-size:44px;line-height:40px}
+    }
+
+    /* Decorative */
+    .kicker{color:#0a6ca0;font-weight:800;font-size:13px;letter-spacing:0.08em;text-transform:uppercase}
+    .muted{color:#7a7a7a}
+  </style>
+</head>
+<body>
+
+  <article class="magazine">
+
+    <!-- COVER -->
+    <header class="cover">
+      <div class="hero">
+        <span class="tag">Winter Olympics — Norway</span>
+        <img src="https://images.unsplash.com/photo-1518079021982-9b2e0aa5c1be?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Norway snowy mountains and olympics stadium">
+      </div>
+
+      <div class="cover-title">
+        <div class="kicker">Special Edition</div>
+        <h1>Norway Hosts the Olympic Winter Games</h1>
+        <p class="lead">A celebration of speed, strength, and snow — an immersive look at the nation, its athletes, and the venues shaping the biggest winter sporting festival.</p>
+        <div class="cover-meta">
+          <div class="pill">Feature: Cross-country Legends</div>
+          <div class="pill">Venue Guide: Oslo — Lillehammer</div>
+          <div class="pill">12 Feb — 28 Feb</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- QUICK FEATURE GRID -->
+    <section class="grid" aria-label="Top stories">
+      <article class="card">
+        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Ski jumper in action">
+        <div class="card-body">
+          <h3>Flight of the Ski Jumper</h3>
+          <p class="muted">How Norway's jump hills produce champions — technique, physics and nerves of steel.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://images.unsplash.com/photo-1526406915897-9639b9a9f7d9?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Cross-country skiing trail">
+        <div class="card-body">
+          <h3>Trail Masters</h3>
+          <p class="muted">From fjords to forests — the endurance events that define winter sport.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://images.unsplash.com/photo-1501544050859-8f1a48d5b46f?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Speed skaters on ice">
+        <div class="card-body">
+          <h3>Ice & Speed</h3>
+          <p class="muted">Racing the blade — a look at speed skating and the pursuit of hundredths of a second.</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- MAIN ARTICLE + SIDEBAR -->
+    <section class="article" aria-label="Main article and sidebar">
+      <div class="content">
+        <p class="byline">By Nora Strand • Winter 2026 Issue</p>
+        <h2>Norway's Winter: From Village Tracks to Olympic Glory</h2>
+        <p><span class="dropcap">N</span>estled between fjords and jagged peaks, Norway has long practiced winter sports as part of its identity. The Olympic spotlight brings together high-tech venues and centuries-old traditions. Local communities greet the Games with pride — crafting courses, hosting cultural exhibitions and welcoming athletes from across the globe.</p>
+
+        <h3>Venues to Watch</h3>
+        <p>Oslo's renovated arena hosts figure skating and ice hockey with cutting-edge refrigeration and spectator sightlines. Up north, Lillehammer's trails for cross-country and biathlon cut through pine-scented air — perfect conditions for endurance events.</p>
+
+        <h3>Profiles: Athletes on the Rise</h3>
+        <p>Young skiers and veteran jumpers share the same rails now. Coaches cite Norway's youth programs and community clubs as the pipeline producing consistent podium contenders.</p>
+
+        <h3>Culture & Cuisine</h3>
+        <p>Between events, fans savor local flavors: hearty fish stews, warming bakes, and the ubiquitous brown cheese on crisp bread. Cultural showcases feature Sami performances and winter crafts that tie the past to the present.</p>
+      </div>
+
+      <aside class="sidebar">
+        <h4>Quick Schedule</h4>
+        <ul class="schedule">
+          <li><strong>Feb 12</strong> — Opening Ceremony • Oslo</li>
+          <li><strong>Feb 13</strong> — Cross-country qualifiers • Lillehammer</li>
+          <li><strong>Feb 16</strong> — Ski Jump Finals • Holmenkollen</li>
+          <li><strong>Feb 20</strong> — Figure Skating Finals • Oslo</li>
+          <li><strong>Feb 24</strong> — Closing Day • Oslo</li>
+        </ul>
+
+        <h4 style="margin-top:14px">Ticketing Tips</h4>
+        <p style="font-size:14px;color:#555">Book early for outdoor venues — weather delays may shift start times. Bundle local transport passes for best value.</p>
+
+        <h4 style="margin-top:12px">Did you know?</h4>
+        <p style="font-size:13px;color:#555">Norway has hosted winter sport festivals for over a century; many modern Olympic sports trace training methods back to Nordic traditions.</p>
+      </aside>
+    </section>
+
+    <!-- PHOTO SPREAD -->
+    <section style="margin-top:26px">
+      <h3 style="margin-bottom:12px">Photo Spread</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+        <img src="https://images.unsplash.com/photo-1445964047600-cdbdb873673d?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="crowd at winter event" style="width:100%;height:160px;object-fit:cover;border-radius:8px">
+        <img src="https://images.unsplash.com/photo-1509228627157-2a0fbf5a9a4c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="athlete celebrating" style="width:100%;height:160px;object-fit:cover;border-radius:8px">
+        <img src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="stadium lights at night" style="width:100%;height:160px;object-fit:cover;border-radius:8px">
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div>© Norway Olympics Magazine • 2026 • <span class="muted">All rights reserved</span></div>
+      <div class="muted">Designed with ❤️ — Print & digital friendly</div>
+    </footer>
+
+  </article>
+
+</body>
+</html>
