@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Our Solar System</title>
+  <style>
+    /* --- Reset & helpers --- */
+    :root{
+      --bg:#02040f;
+      --glass: rgba(255,255,255,0.06);
+      --accent: rgba(255,255,255,0.06);
+      --panel-bg: rgba(10,12,20,0.8);
+      --ui: #e9f1ff;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:var(--ui);background: radial-gradient(ellipse at 20% 10%, rgba(30,40,80,0.3), transparent 10%), var(--bg);}
+    a{color:inherit}
+
+    /* --- Page layout --- */
+    .wrap{display:grid;grid-template-columns: 1fr 320px;gap:20px;min-height:100vh;padding:36px;align-items:start}
+    header{grid-column:1 / -1;display:flex;align-items:center;gap:18px}
+    h1{margin:0;font-size:20px;letter-spacing:0.6px}
+    p.lead{margin:0;opacity:0.8}
+
+    /* --- Scene --- */
+    .scene{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:14px;padding:28px;box-shadow: 0 6px 30px rgba(0,0,0,0.6);min-height:70vh;position:relative;overflow:hidden}
+    .space{width:100%;height:100%;position:relative;min-height:60vh;display:flex;align-items:center;justify-content:center}
+
+    /* center / sun */
+    .sun{position:relative;width:140px;height:140px;border-radius:50%;background: radial-gradient(circle at 30% 30%, #fff7d0, #ffcf31 20%, #ff7b00 60%, #ff3b00 100%);box-shadow:0 0 60px 18px rgba(255,140,0,0.14), inset 0 -10px 20px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center}
+    .sun::after{content:'';position:absolute;inset:-40px;border-radius:50%;filter:blur(16px);opacity:0.25;background:radial-gradient(circle,#ffb64d, transparent 40%)}
+
+    /* orbits container */
+    .orbit-layer{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+    .orbit{position:absolute;border-radius:50%;border:1px dashed rgba(255,255,255,0.06);transform-origin:center center}
+
+    /* planet base style */
+    .planet{position:absolute;border-radius:50%;transform-origin:center center;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .planet .label{position:absolute;top:110%;left:50%;transform:translateX(-50%);font-size:12px;white-space:nowrap;opacity:0.9}
+
+    /* individual planets (sizes are illustrative) */
+    .mercury{width:10px;height:10px;background:linear-gradient(140deg,#b5b5b5,#9a9a9a)}
+    .venus{width:18px;height:18px;background:linear-gradient(140deg,#e6c77a,#c7872b)}
+    .earth{width:20px;height:20px;background:linear-gradient(140deg,#6fb3ff,#1e6fb3);box-shadow:0 0 8px rgba(30,111,179,0.25)}
+    .mars{width:14px;height:14px;background:linear-gradient(140deg,#ffb38a,#b84a2f)}
+    .jupiter{width:46px;height:46px;background:linear-gradient(140deg,#f5d0b7,#c3865b);box-shadow: inset -6px 0 14px rgba(0,0,0,0.2)}
+    .saturn{width:38px;height:38px;background:linear-gradient(140deg,#e9d9b3,#bda37f)}
+    .uranus{width:30px;height:30px;background:linear-gradient(140deg,#cde7f0,#6fb7d1)}
+    .neptune{width:30px;height:30px;background:linear-gradient(140deg,#a9d2ff,#335f9a)}
+
+    /* Saturn rings */
+    .saturn::before{content:'';position:absolute;width:62px;height:10px;border-radius:999px;left:50%;top:50%;transform:translate(-50%,-50%) rotate(22deg);border:3px solid rgba(255,255,255,0.06);background:linear-gradient(90deg, rgba(255,255,255,0.04), rgba(0,0,0,0.08));z-index:-1}
+
+    /* Orbital animation wrappers */
+    .orbiter{position:absolute;left:50%;top:50%;transform-origin:center center}
+
+    /* speeds (duration in seconds) — exaggerated for visibility */
+    .orbit-1 .orbiter{animation:spin 4.8s linear infinite}
+    .orbit-2 .orbiter{animation:spin 12s linear infinite}
+    .orbit-3 .orbiter{animation:spin 18s linear infinite}
+    .orbit-4 .orbiter{animation:spin 27s linear infinite}
+    .orbit-5 .orbiter{animation:spin 96s linear infinite}
+    .orbit-6 .orbiter{animation:spin 240s linear infinite}
+    .orbit-7 .orbiter{animation:spin 680s linear infinite}
+    .orbit-8 .orbiter{animation:spin 1200s linear infinite}
+
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+    /* Info sidebar */
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;padding:16px;backdrop-filter: blur(6px);min-height:380px}
+    .panel h2{margin:8px 0 6px;font-size:16px}
+    .panel .meta{font-size:13px;opacity:0.85}
+    .planet-list{display:grid;gap:8px;margin-top:12px}
+    .planet-item{display:flex;gap:10px;align-items:center;padding:8px;border-radius:8px;cursor:pointer}
+    .planet-swatch{width:24px;height:24px;border-radius:50%}
+
+    /* responsive */
+    @media (max-width:980px){.wrap{grid-template-columns:1fr;}.panel{order:2}.scene{order:1;min-height:58vh}}
+
+    /* small touches */
+    footer{grid-column:1/-1;margin-top:12px;color:rgba(255,255,255,0.5);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div style="width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,#0b2b4a,#042233);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 -6px 12px rgba(0,0,0,0.4)">☀️</div>
+      <div>
+        <h1>Interactive Solar System</h1>
+        <p class="lead">A playful, educational CSS + JS demo showing the eight planets orbiting the Sun. Click a planet to learn more.</p>
+      </div>
+    </header>
+
+    <main class="scene">
+      <div class="space" id="scene">
+        <!-- Sun -->
+        <div class="sun" title="Sun"></div>
+
+        <!-- Orbits and planets (absolute positioning, centered at Sun) -->
+        <div class="orbit-layer orbit-1">
+          <div class="orbit" style="width:120px;height:120px"></div>
+          <div class="orbiter" style="width:120px;height:120px">
+            <div class="planet mercury" data-planet="Mercury" style="left:calc(50% - 6px);top:4px"></div>
+          </div>
+        </div>
+
+        <div class="orbit-layer orbit-2">
+          <div class="orbit" style="width:180px;height:180px"></div>
+          <div class="orbiter" style="width:180px;height:180px">
+            <div class="planet venus" data-planet="Venus" style="left:calc(50% - 9px);top:4px"></div>
+          </div>
+        </div>
+
+        <div class="orbit-layer orbit-3">
+          <div class="orbit" style="width:240px;height:240px"></div>
+          <div class="orbiter" style="width:240px;height:240px">
+            <div class="planet earth" data-planet="Earth" style="left:calc(50% - 10px);top:4px"></div>
+          </div>
+        </div>
+
+        <div class="orbit-layer orbit-4">
+          <div class="orbit" style="width:300px;height:300px"></div>
+          <div class="orbiter" style="width:300px;height:300px">
+            <div class="planet mars" data-planet="Mars" style="left:calc(50% - 7px);top:4px"></div>
+          </div>
+        </div>
+
+        <div class="orbit-layer orbit-5">
+          <div class="orbit" style="width:420px;height:420px"></div>
+          <div class="orbiter" style="width:420px;height:420px">
+            <div class="planet jupiter" data-planet="Jupiter" style="left:calc(50% - 23px);top:4px"></div>
+          </div>
+        </div>
+
+        <div class="orbit-layer orbit-6">
+          <div class="orbit" style="width:520px;height:520px"></div>
+          <div class="orbiter" style="width:520px;height:520px">
+            <div class="planet saturn" data-planet="Saturn" style="left:calc(50% - 19px);top:4px"></div>
+          </div>
+        </div>
+
+        <div class="orbit-layer orbit-7">
+          <div class="orbit" style="width:660px;height:660px"></div>
+          <div class="orbiter" style="width:660px;height:660px">
+            <div class="planet uranus" data-planet="Uranus" style="left:calc(50% - 15px);top:4px"></div>
+          </div>
+        </div>
+
+        <div class="orbit-layer orbit-8">
+          <div class="orbit" style="width:760px;height:760px"></div>
+          <div class="orbiter" style="width:760px;height:760px">
+            <div class="planet neptune" data-planet="Neptune" style="left:calc(50% - 15px);top:4px"></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <aside class="panel">
+      <h2 id="panel-title">Select a planet</h2>
+      <div class="meta" id="panel-meta">Click any planet in the scene or from the list below to see basic facts.</div>
+
+      <div class="planet-list" id="planet-list">
+        <!-- JS will populate a clickable list with swatches -->
+      </div>
+
+      <div style="margin-top:14px;font-size:13px;opacity:0.85">Tip: animation durations are sped up for demonstration.</div>
+    </aside>
+
+    <footer>Built with CSS animations & small JS — educational demo.</footer>
+  </div>
+
+  <script>
+    const planets = [
+      {id:'Mercury', mass:'3.285×10^23 kg', radius:'2,439.7 km', day:'58.6 Earth days', orbit:'0.39 AU', desc:'Mercury is the smallest planet and closest to the Sun.'},
+      {id:'Venus', mass:'4.867×10^24 kg', radius:'6,051.8 km', day:'243 Earth days (retrograde)', orbit:'0.72 AU', desc:'Venus has a thick, toxic atmosphere and is the hottest planet.'},
+      {id:'Earth', mass:'5.972×10^24 kg', radius:'6,371 km', day:'24 hours', orbit:'1 AU', desc:'Our home — the only planet known to support life.'},
+      {id:'Mars', mass:'6.39×10^23 kg', radius:'3,389.5 km', day:'24.6 hours', orbit:'1.52 AU', desc:'Often called the Red Planet; a target for exploration.'},
+      {id:'Jupiter', mass:'1.898×10^27 kg', radius:'69,911 km', day:'~9.9 hours', orbit:'5.2 AU', desc:'The largest planet, a gas giant with a famous Great Red Spot.'},
+      {id:'Saturn', mass:'5.683×10^26 kg', radius:'58,232 km', day:'~10.7 hours', orbit:'9.58 AU', desc:'Known for its spectacular rings made of ice and rock.'},
+      {id:'Uranus', mass:'8.681×10^25 kg', radius:'25,362 km', day:'~17.2 hours', orbit:'19.2 AU', desc:'An ice giant with a tilted axis that rolls along its orbit.'},
+      {id:'Neptune', mass:'1.024×10^26 kg', radius:'24,622 km', day:'~16.1 hours', orbit:'30.05 AU', desc:'The farthest known planet in the Solar System; strong winds.'}
+    ];
+
+    const panelTitle = document.getElementById('panel-title');
+    const panelMeta = document.getElementById('panel-meta');
+    const list = document.getElementById('planet-list');
+
+    function makeList(){
+      planets.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'planet-item';
+        item.innerHTML = `<div class='planet-swatch' style='background:${swatchFor(p.id)}'></div><div style="flex:1"><strong>${p.id}</strong><div style='font-size:12px;opacity:0.8'>${p.orbit} — ${p.radius}</div></div>`;
+        item.addEventListener('click', ()=> showInfo(p.id));
+        list.appendChild(item);
+      })
+    }
+
+    function swatchFor(id){
+      switch(id){
+        case 'Mercury': return 'linear-gradient(140deg,#b5b5b5,#9a9a9a)';
+        case 'Venus': return 'linear-gradient(140deg,#e6c77a,#c7872b)';
+        case 'Earth': return 'linear-gradient(140deg,#6fb3ff,#1e6fb3)';
+        case 'Mars': return 'linear-gradient(140deg,#ffb38a,#b84a2f)';
+        case 'Jupiter': return 'linear-gradient(140deg,#f5d0b7,#c3865b)';
+        case 'Saturn': return 'linear-gradient(140deg,#e9d9b3,#bda37f)';
+        case 'Uranus': return 'linear-gradient(140deg,#cde7f0,#6fb7d1)';
+        case 'Neptune': return 'linear-gradient(140deg,#a9d2ff,#335f9a)';
+      }
+    }
+
+    function showInfo(id){
+      const p = planets.find(x=>x.id===id);
+      if(!p) return;
+      panelTitle.textContent = p.id;
+      panelMeta.innerHTML = `<strong>Orbit:</strong> ${p.orbit}<br><strong>Radius:</strong> ${p.radius}<br><strong>Mass:</strong> ${p.mass}<br><strong>Day:</strong> ${p.day}<p style='margin-top:8px;opacity:0.95'>${p.desc}</p>`;
+      // highlight planet briefly
+      const el = document.querySelector(`.planet[data-planet='${id}']`);
+      if(el){
+        el.animate([{transform:'scale(1)'},{transform:'scale(1.28)'},{transform:'scale(1)'}],{duration:900,iterations:1});
+      }
+    }
+
+    // Wire planet clicks in the scene
+    document.querySelectorAll('.planet').forEach(el=>{
+      el.addEventListener('click', ()=> showInfo(el.dataset.planet));
+      el.addEventListener('mouseenter', ()=> el.style.filter='brightness(1.12)');
+      el.addEventListener('mouseleave', ()=> el.style.filter='');
+    })
+
+    // Build the list on load
+    makeList();
+
+    // Accessibility: allow keyboard selection for list items
+    Array.from(document.querySelectorAll('.planet-item')).forEach((it, i)=>{it.tabIndex=0})
+
+  </script>
+</body>
+</html>
